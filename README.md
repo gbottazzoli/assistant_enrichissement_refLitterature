@@ -1,226 +1,153 @@
-# 📚 Enrichisseur Bibliographique pour Obsidian
-
+# Agent Bibliographique pour Humanités Digitales
 
 <!-- AUTO-GENERATED STATS - DO NOT EDIT -->
 **Stats du projet** : 886 lignes | 23 fonctions | 2 classes
 <!-- END AUTO-GENERATED -->
 
-Agent Python pour enrichir automatiquement vos notes bibliographiques avec DOI et métadonnées.
+## Description
 
-## 🎯 Fonctionnalités (Étape 1)
+Outil d'enrichissement automatique de références bibliographiques pour la recherche en histoire et humanités digitales.
 
-- ✅ Scanne les fichiers Markdown pour tags `#reflitterature`
-- ✅ Extrait le contexte autour des références
-- ✅ Cherche des références complètes dans votre fichier bibliographie
-- ✅ Utilise un LLM local (Ollama) pour nettoyer les erreurs OCR
-- ✅ Interroge les APIs gratuites (OpenAlex prioritaire, CrossRef en backup)
-- ✅ Génère un rapport avec scores de confiance (JSON + Markdown)
+### Problématique
 
-## 📋 Prérequis
+Lors de la prise de notes de lecture dans Obsidian (format Markdown), les références bibliographiques sont :
+- Taggées de manière informelle avec highlights et commentaires
+- Écrites dans des formats hétérogènes selon les auteurs
+- Souvent fragmentaires ou avec des erreurs OCR (conversion PDF → MD)
+- Dispersées entre mentions rapides, notes de bas de page et bibliographies
 
-1. **Python 3.8+** (vérifier : `python3 --version`)
-2. **Ollama** installé et lancé localement
-3. **Git** (optionnel, pour cloner)
+La recherche manuelle de DOI/ISBN pour chaque référence et leur intégration dans Zotero est chronophage (50-100 références/semaine).
 
-## 🚀 Installation
+### Solution proposée
 
-### 1. Copier les fichiers dans votre vault Obsidian
+Un agent IA local basé sur LLM qui automatise trois workflows distincts :
 
-Copiez le dossier `biblio-enricher/` à la racine de votre vault :
+#### **Workflow 1 : Enrichissement bibliographique** (prioritaire)
+1. Détection des tags et citations dans les fichiers `.md`
+2. Extraction du contexte et recherche de références complètes dans le corpus local
+3. Utilisation d'un LLM local (Ollama) pour comprendre et structurer les références malgré les erreurs
+4. Interrogation d'APIs bibliographiques (OpenAlex, CrossRef, WorldCat)
+5. Validation et import automatique dans Zotero
 
-```
-MonVault/
-├── biblio-enricher/     ← Coller ici
-│   ├── agent.py
-│   ├── config.py
-│   └── requirements.txt
-├── 1.2 The impact...md
-├── 4.4 Bibliographic references.md
-└── ...
-```
+#### **Workflow 2 : Insertion des clés BibTeX** (futur)
+- Remplacement des tags par les clés BibTeX Zotero (`@auteur2023`)
+- Préparation des documents pour export académique (Pandoc/LaTeX)
 
-### 2. Installer les dépendances Python
+#### **Workflow 3 : Cartographie conceptuelle** (futur)
+- Analyse sémantique du corpus annoté
+- Construction d'un graphe de connaissances dans Neo4j
+- Visualisation des relations entre auteurs, concepts et arguments
 
-Ouvrez un terminal dans le dossier `biblio-enricher/` :
+## Stack technique
+
+- **Python 3.10+** : orchestration et scripts
+- **Ollama + Llama 3.1** : LLM local pour compréhension contextuelle
+- **LangChain** : framework pour la gestion d'agents et tools
+- **APIs** : OpenAlex, CrossRef, WorldCat, Zotero
+- **Obsidian** : interface de travail (notes en Markdown)
+- **Neo4j** : base de données graphe (Workflow 3)
+
+## Objectifs pédagogiques
+
+Ce projet sert également d'apprentissage pratique pour :
+- Développement d'agents IA avec LangChain
+- Intégration d'APIs REST
+- Manipulation de graphes de connaissances (Neo4j)
+- Automatisation de workflows de recherche académique
+
+## Installation rapide
+
+### Prérequis
+
+- Python 3.10+
+- Ollama installé et lancé (`ollama serve`)
+- Modèle Llama 3.1 téléchargé (`ollama pull llama3.1:8b`)
+
+### Installation
 
 ```bash
-cd /chemin/vers/MonVault/biblio-enricher
-
-# Créer un environnement virtuel (recommandé)
-python3 -m venv venv
-
-# Activer l'environnement
-# Sur Linux/Mac :
-source venv/bin/activate
-# Sur Windows :
-venv\Scripts\activate
+# Cloner le repository
+git clone https://github.com/gbottazzoli/assistant_enrichissement_refLitterature.git
+cd assistant_enrichissement_refLitterature
 
 # Installer les dépendances
 pip install -r requirements.txt
+
+# Copier et configurer
+cp config.example.py config.py
+# Éditer config.py avec vos chemins et préférences
 ```
 
-### 3. Installer et configurer Ollama
-
-**Installation d'Ollama** :
-- Linux/Mac : https://ollama.com/download
-- Vérifier : `ollama --version`
-
-**Télécharger le modèle** :
-```bash
-ollama pull llama3.1
-```
-
-**Démarrer Ollama** :
-```bash
-ollama serve
-```
-(Laissez cette fenêtre de terminal ouverte)
-
-### 4. Configuration (optionnel)
-
-Éditez `config.py` pour ajuster :
-
-```python
-# Chemins
-VAULT_PATH = "."  # Dossier de votre vault
-BIBLIO_FILE = "4.4 Bibliographic references.md"
-
-# Modèle LLM
-OLLAMA_MODEL = "llama3.1"  # Ou un autre modèle installé
-
-# APIs (optionnel mais recommandé)
-OPENALEX_EMAIL = "votre.email@exemple.com"  # Pour être poli avec l'API
-CROSSREF_EMAIL = "votre.email@exemple.com"
-```
-
-**Note** : Les APIs OpenAlex et CrossRef sont **gratuites** et **ne nécessitent pas de clé**. Fournir votre email est optionnel mais recommandé (meilleurs quotas).
-
-## 🎮 Utilisation
-
-### Commande de base
+### Utilisation
 
 ```bash
-python agent.py "nom_du_fichier.md"
+# Enrichir un fichier de notes
+python3 agent.py "votre_fichier.md"
+
+# Les résultats sont dans results/
 ```
 
-### Exemples
+Voir **QUICKSTART.md** pour un guide détaillé.
 
-```bash
-# Traiter un fichier spécifique
-python agent.py "1.2 The impact of digitalisation on intellectual life.md"
+## Documentation
 
-# Si le nom contient des espaces, utilisez des guillemets !
-python agent.py "2.3 The world of open materials.md"
+- **QUICKSTART.md** : Guide de démarrage rapide
+- **TODO.md** : Roadmap complète des 3 workflows
+- **PROJECT_STATE.md** : État actuel du projet (auto-généré)
+- **AGENTS.md** : Description des 3 agents automatiques
+- **GIT_SETUP.md** : Configuration Git/GitHub
 
-# Sans extension .md (ajoutée automatiquement)
-python agent.py "1.2 The impact of digitalisation on intellectual life"
-```
+## Statut
 
-### Sortie
+🚧 **En développement** - Workflow 1 en cours d'implémentation
 
-Le script génère deux fichiers dans `results/` :
+**Version actuelle** : 0.1.0
 
-1. **JSON** : `nom_fichier_YYYYMMDD_HHMMSS.json`
-   - Format structuré pour traitement ultérieur
-   - Contient toutes les métadonnées
+### Fonctionnalités implémentées (Workflow 1)
 
-2. **Markdown** : `nom_fichier_YYYYMMDD_HHMMSS_report.md`
-   - Rapport lisible par humain
-   - Visualisable directement dans Obsidian
+- ✅ Scanner de fichiers Markdown avec détection tags `#reflitterature`
+- ✅ Extraction citations entre `== ==`
+- ✅ Recherche dans bibliographie locale
+- ✅ Enrichissement via LLM local (Ollama)
+- ✅ APIs OpenAlex et CrossRef (gratuites, sans clé)
+- ✅ Génération rapports JSON + Markdown
+- ✅ Calcul scores de confiance
 
-## 📊 Exemple de sortie
+### Prochaines étapes
 
-```markdown
-## Référence 1
+- [ ] Intégration Zotero (pyzotero)
+- [ ] Mode interactif avec validation
+- [ ] Gestion des doublons
+- [ ] Tests unitaires
 
-**Ligne 18**: deux références Habermas, sphère publique
+Voir **TODO.md** pour la roadmap complète.
 
-**Métadonnées extraites**:
-- Auteur: Habermas, Jürgen
-- Titre: The Structural Transformation of the Public Sphere
-- Année: 1992
-
-**Résultat API (OpenAlex)**:
-- DOI: `10.1080/01916599.2024.2365143`
-- URL: https://doi.org/10.1080/01916599.2024.2365143
-- Score de confiance: 87.5%
-```
-
-## 🔧 Dépannage
-
-### "Ollama n'est pas accessible"
-```bash
-# Vérifier qu'Ollama tourne
-ollama list
-
-# Si non, le démarrer
-ollama serve
-```
-
-### "Le modèle llama3.1 n'est pas installé"
-```bash
-ollama pull llama3.1
-```
-
-### "Fichier non trouvé"
-- Vérifiez que vous êtes dans le bon dossier (`cd biblio-enricher`)
-- Vérifiez le chemin dans `config.py` → `VAULT_PATH`
-- Utilisez des guillemets autour du nom de fichier
-
-### "Aucune référence trouvée"
-- Vérifiez que vos tags sont au format : `%% #reflitterature description %%`
-- Pas d'espace manquant avant/après `%%`
-
-## 📁 Structure des fichiers
+## Structure du projet
 
 ```
 biblio-enricher/
-├── agent.py              # Script principal (lancez celui-ci)
-├── config.py             # Configuration (modifiez selon vos besoins)
+├── agent.py              # Agent principal d'enrichissement
+├── config.example.py     # Template de configuration
 ├── requirements.txt      # Dépendances Python
-├── README.md            # Ce fichier
-└── results/             # Dossier de sortie (créé automatiquement)
-    ├── fichier_20250101_120000.json
-    └── fichier_20250101_120000_report.md
+├── project_state.py      # Agent de maintenance documentation
+├── git_publish.py        # Agent Git automatique
+└── results/              # Résultats générés (ignoré par Git)
 ```
 
-## 🚚 Portabilité entre vaults
+## Agents automatiques
 
-Pour copier ce système vers un autre vault :
+Le projet utilise 3 agents spécialisés :
 
-1. **Copier le dossier** `biblio-enricher/` complet
-2. **Ajuster** `config.py` si nécessaire (notamment `BIBLIO_FILE`)
-3. **Réactiver** l'environnement virtuel :
-   ```bash
-   cd biblio-enricher
-   source venv/bin/activate  # ou venv\Scripts\activate sur Windows
-   ```
+1. **Agent principal** (`agent.py`) : Enrichissement bibliographique
+2. **Agent documentation** (`project_state.py`) : Maintenance de la doc projet
+3. **Agent Git** (`git_publish.py`) : Publication sécurisée sur GitHub
 
-C'est tout ! Les dépendances sont déjà installées dans `venv/`.
+Voir **AGENTS.md** pour plus de détails.
 
-## 🔮 Évolutions futures (Étapes 2-7)
+## Auteur
 
-- [ ] Interface interactive pour valider/corriger les résultats
-- [ ] Ajout automatique à Zotero via API
-- [ ] Support d'ISBN pour les livres
-- [ ] Traitement par lot de plusieurs fichiers
-- [ ] Cache local pour éviter requêtes API redondantes
-- [ ] Export vers BibTeX/CSL-JSON
+Étudiant en histoire et humanités digitales
 
-## 📝 Notes
+## Licence
 
-- **Confidentialité** : Toutes les APIs utilisées sont publiques et gratuites
-- **LLM local** : Vos notes ne quittent jamais votre machine (Ollama est local)
-- **Pas de modification** : Le script ne modifie JAMAIS vos fichiers .md originaux
-- **Format des tags** : Seuls les tags `%% #reflitterature ... %%` sont traités
-
-## 📞 Support
-
-Pour toute question ou problème :
-1. Vérifiez la section "Dépannage" ci-dessus
-2. Vérifiez que tous les prérequis sont installés
-3. Consultez les logs d'erreur dans le terminal
-
-## 📜 Licence
-
-Libre d'utilisation pour vos travaux académiques en humanités digitales.
+À définir
