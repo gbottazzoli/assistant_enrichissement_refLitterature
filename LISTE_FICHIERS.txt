@@ -1,0 +1,78 @@
+📁 STRUCTURE DU PROJET
+=====================
+
+biblio-enricher/
+│
+├── 📜 agent.py              ← SCRIPT PRINCIPAL à lancer
+├── ⚙️  config.py            ← Configuration (chemins, modèle LLM, emails)
+├── 📦 requirements.txt      ← Dépendances Python
+│
+├── 📖 README.md            ← Documentation complète
+├── 🚀 QUICKSTART.md        ← Guide de démarrage rapide (COMMENCEZ ICI!)
+├── 📝 EXAMPLE_TEST.md      ← Fichier de test avec exemples
+└── 📋 LISTE_FICHIERS.txt   ← Ce fichier
+
+results/                     ← Dossier de sortie (créé automatiquement)
+├── *.json                  ← Résultats structurés
+└── *_report.md             ← Rapports lisibles
+
+
+🎯 COMMANDES ESSENTIELLES
+=========================
+
+1. Installer Ollama :
+   curl -fsSL https://ollama.com/install.sh | sh
+
+2. Télécharger le modèle :
+   ollama pull llama3.1
+
+3. Démarrer Ollama (laisser tourner) :
+   ollama serve
+
+4. Installer les dépendances Python :
+   pip install -r requirements.txt
+
+5. Lancer l'enrichissement :
+   python agent.py "votre_fichier.md"
+
+
+📧 CLÉS API
+===========
+
+OpenAlex : ❌ AUCUNE CLÉ NÉCESSAIRE (API totalement gratuite)
+CrossRef : ❌ AUCUNE CLÉ NÉCESSAIRE (API totalement gratuite)
+
+Optionnel : Ajoutez votre email dans config.py pour de meilleurs quotas
+
+
+✅ FICHIERS À MODIFIER
+======================
+
+config.py → Si vous voulez changer :
+  - Le nom de votre fichier bibliographie
+  - Le chemin vers votre vault
+  - Le modèle LLM (par défaut : llama3.1)
+  - Ajouter votre email pour les APIs
+
+
+❌ FICHIERS À NE PAS MODIFIER
+=============================
+
+agent.py → Code source (sauf si vous voulez personnaliser)
+requirements.txt → Liste des dépendances
+
+
+🔄 POUR COPIER VERS UN AUTRE VAULT
+===================================
+
+1. Copiez tout le dossier biblio-enricher/
+2. Éditez config.py si le nom du fichier bibliographie change
+3. C'est tout !
+
+
+📞 AIDE
+=======
+
+- Problème ? → Consultez README.md section "Dépannage"
+- Première fois ? → Lisez QUICKSTART.md
+- Test rapide ? → Lancez sur EXAMPLE_TEST.md

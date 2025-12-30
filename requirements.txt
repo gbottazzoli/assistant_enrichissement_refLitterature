@@ -1,0 +1,16 @@
+# Dépendances Python pour l'enrichisseur bibliographique
+
+# Requêtes HTTP
+requests>=2.31.0
+
+# Traitement des fichiers Markdown
+markdown-it-py>=3.0.0
+
+# Client Ollama
+ollama>=0.1.0
+
+# Parsing et nettoyage de texte
+regex>=2023.0.0
+
+# Barre de progression (optionnel mais utile)
+tqdm>=4.66.0

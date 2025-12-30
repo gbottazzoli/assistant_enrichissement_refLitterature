@@ -1,0 +1,608 @@
+{
+  "timestamp": "2025-12-30T09:40:11.319288",
+  "project_name": "biblio-enricher",
+  "version": "0.1.0",
+  "files": {
+    "config.py": {
+      "path": "/home/steeven/kDrive/MHis_M05_3/Cours/biblio-enricher/config.py",
+      "lines": 42,
+      "functions": [],
+      "classes": [],
+      "imports": []
+    },
+    "agent.py": {
+      "path": "/home/steeven/kDrive/MHis_M05_3/Cours/biblio-enricher/agent.py",
+      "lines": 542,
+      "functions": [
+        {
+          "name": "main",
+          "line": 498,
+          "args": [],
+          "docstring": "Point d'entrée principal du script"
+        },
+        {
+          "name": "__init__",
+          "line": 30,
+          "args": [
+            "self",
+            "vault_path"
+          ],
+          "docstring": "Initialise l'enrichisseur\n\nArgs:\n    vault_path: Chemin vers le vault Obsidian (par défaut: config.VAULT_PATH)"
+        },
+        {
+          "name": "_check_ollama",
+          "line": 45,
+          "args": [
+            "self"
+          ],
+          "docstring": "Vérifie que le serveur Ollama est accessible"
+        },
+        {
+          "name": "scan_file",
+          "line": 61,
+          "args": [
+            "self",
+            "filename"
+          ],
+          "docstring": "Scanne un fichier .md pour trouver les tags #reflitterature\n\nArgs:\n    filename: Nom du fichier à scanner (avec ou sans .md)\n\nReturns:\n    Liste de dictionnaires contenant les références trouvées"
+        },
+        {
+          "name": "search_in_bibliography",
+          "line": 137,
+          "args": [
+            "self",
+            "ref_text"
+          ],
+          "docstring": "Cherche une référence complète dans le fichier bibliographie\n\nArgs:\n    ref_text: Texte de la référence à chercher (format: \"Auteur Année\" ou \"Auteur et Auteur Année\")\n\nReturns:\n    La référence complète si trouvée, None sinon"
+        },
+        {
+          "name": "extract_metadata_with_llm",
+          "line": 189,
+          "args": [
+            "self",
+            "ref_text",
+            "full_ref"
+          ],
+          "docstring": "Utilise Ollama pour extraire les métadonnées d'une référence\nGère les erreurs OCR et formate les données\n\nArgs:\n    ref_text: Texte brut de la référence\n    full_ref: Référence complète depuis bibliographie (optionnel)\n\nReturns:\n    Dictionnaire avec auteur, titre, année extraits"
+        },
+        {
+          "name": "search_openalex",
+          "line": 252,
+          "args": [
+            "self",
+            "author",
+            "title",
+            "year"
+          ],
+          "docstring": "Recherche dans OpenAlex (API gratuite prioritaire)\n\nArgs:\n    author, title, year: Métadonnées extraites\n\nReturns:\n    Informations bibliographiques avec DOI si trouvé"
+        },
+        {
+          "name": "search_crossref",
+          "line": 313,
+          "args": [
+            "self",
+            "author",
+            "title",
+            "year"
+          ],
+          "docstring": "Recherche dans CrossRef (API de backup)\n\nArgs:\n    author, title, year: Métadonnées extraites\n\nReturns:\n    Informations bibliographiques avec DOI si trouvé"
+        },
+        {
+          "name": "_similarity_score",
+          "line": 372,
+          "args": [
+            "self",
+            "str1",
+            "str2"
+          ],
+          "docstring": "Calcul de similarité simple entre deux chaînes\n(Ratio de mots communs)"
+        },
+        {
+          "name": "process_references",
+          "line": 391,
+          "args": [
+            "self",
+            "references"
+          ],
+          "docstring": "Traite une liste de références et enrichit avec métadonnées\n\nArgs:\n    references: Liste de références extraites du fichier\n\nReturns:\n    Liste enrichie avec DOI et métadonnées"
+        },
+        {
+          "name": "save_results",
+          "line": 443,
+          "args": [
+            "self",
+            "results",
+            "source_file"
+          ],
+          "docstring": "Sauvegarde les résultats dans le dossier de sortie\n\nArgs:\n    results: Résultats enrichis\n    source_file: Nom du fichier source"
+        }
+      ],
+      "classes": [
+        {
+          "name": "BiblioEnricher",
+          "line": 27,
+          "methods": [
+            "__init__",
+            "_check_ollama",
+            "scan_file",
+            "search_in_bibliography",
+            "extract_metadata_with_llm",
+            "search_openalex",
+            "search_crossref",
+            "_similarity_score",
+            "process_references",
+            "save_results"
+          ],
+          "docstring": "Agent pour enrichir les références bibliographiques"
+        }
+      ],
+      "imports": [
+        "re",
+        "json",
+        "sys",
+        "os",
+        "pathlib",
+        "typing",
+        "datetime",
+        "config",
+        "requests",
+        "ollama",
+        "tqdm"
+      ]
+    },
+    "config.example.py": {
+      "path": "/home/steeven/kDrive/MHis_M05_3/Cours/biblio-enricher/config.example.py",
+      "lines": 43,
+      "functions": [],
+      "classes": [],
+      "imports": []
+    },
+    "git_publish.py": {
+      "path": "/home/steeven/kDrive/MHis_M05_3/Cours/biblio-enricher/git_publish.py",
+      "lines": 259,
+      "functions": [
+        {
+          "name": "main",
+          "line": 204,
+          "args": [],
+          "docstring": "Point d'entrée"
+        },
+        {
+          "name": "__init__",
+          "line": 17,
+          "args": [
+            "self"
+          ],
+          "docstring": null
+        },
+        {
+          "name": "run_cmd",
+          "line": 28,
+          "args": [
+            "self",
+            "cmd",
+            "check"
+          ],
+          "docstring": "Execute commande shell"
+        },
+        {
+          "name": "check_git_installed",
+          "line": 46,
+          "args": [
+            "self"
+          ],
+          "docstring": "Vérifie que Git est installé"
+        },
+        {
+          "name": "init_repo_if_needed",
+          "line": 53,
+          "args": [
+            "self"
+          ],
+          "docstring": "Initialise le repo si nécessaire"
+        },
+        {
+          "name": "ensure_gitignore",
+          "line": 76,
+          "args": [
+            "self"
+          ],
+          "docstring": "Vérifie que .gitignore existe"
+        },
+        {
+          "name": "check_for_secrets",
+          "line": 84,
+          "args": [
+            "self"
+          ],
+          "docstring": "Vérifie qu'aucun secret n'est dans les fichiers stagés"
+        },
+        {
+          "name": "get_status",
+          "line": 127,
+          "args": [
+            "self"
+          ],
+          "docstring": "Récupère le statut Git"
+        },
+        {
+          "name": "stage_files",
+          "line": 132,
+          "args": [
+            "self"
+          ],
+          "docstring": "Stage les fichiers selon .gitignore"
+        },
+        {
+          "name": "create_commit",
+          "line": 153,
+          "args": [
+            "self",
+            "message"
+          ],
+          "docstring": "Crée un commit"
+        },
+        {
+          "name": "push_to_remote",
+          "line": 164,
+          "args": [
+            "self",
+            "branch"
+          ],
+          "docstring": "Push vers le remote"
+        },
+        {
+          "name": "show_summary",
+          "line": 191,
+          "args": [
+            "self"
+          ],
+          "docstring": "Affiche un résumé"
+        }
+      ],
+      "classes": [
+        {
+          "name": "GitPublisher",
+          "line": 14,
+          "methods": [
+            "__init__",
+            "run_cmd",
+            "check_git_installed",
+            "init_repo_if_needed",
+            "ensure_gitignore",
+            "check_for_secrets",
+            "get_status",
+            "stage_files",
+            "create_commit",
+            "push_to_remote",
+            "show_summary"
+          ],
+          "docstring": "Automatise la publication Git avec vérifications de sécurité"
+        }
+      ],
+      "imports": [
+        "subprocess",
+        "sys",
+        "re",
+        "pathlib",
+        "datetime"
+      ]
+    }
+  },
+  "functions": {
+    "agent.main": {
+      "name": "main",
+      "line": 498,
+      "args": [],
+      "docstring": "Point d'entrée principal du script"
+    },
+    "agent.__init__": {
+      "name": "__init__",
+      "line": 30,
+      "args": [
+        "self",
+        "vault_path"
+      ],
+      "docstring": "Initialise l'enrichisseur\n\nArgs:\n    vault_path: Chemin vers le vault Obsidian (par défaut: config.VAULT_PATH)"
+    },
+    "agent._check_ollama": {
+      "name": "_check_ollama",
+      "line": 45,
+      "args": [
+        "self"
+      ],
+      "docstring": "Vérifie que le serveur Ollama est accessible"
+    },
+    "agent.scan_file": {
+      "name": "scan_file",
+      "line": 61,
+      "args": [
+        "self",
+        "filename"
+      ],
+      "docstring": "Scanne un fichier .md pour trouver les tags #reflitterature\n\nArgs:\n    filename: Nom du fichier à scanner (avec ou sans .md)\n\nReturns:\n    Liste de dictionnaires contenant les références trouvées"
+    },
+    "agent.search_in_bibliography": {
+      "name": "search_in_bibliography",
+      "line": 137,
+      "args": [
+        "self",
+        "ref_text"
+      ],
+      "docstring": "Cherche une référence complète dans le fichier bibliographie\n\nArgs:\n    ref_text: Texte de la référence à chercher (format: \"Auteur Année\" ou \"Auteur et Auteur Année\")\n\nReturns:\n    La référence complète si trouvée, None sinon"
+    },
+    "agent.extract_metadata_with_llm": {
+      "name": "extract_metadata_with_llm",
+      "line": 189,
+      "args": [
+        "self",
+        "ref_text",
+        "full_ref"
+      ],
+      "docstring": "Utilise Ollama pour extraire les métadonnées d'une référence\nGère les erreurs OCR et formate les données\n\nArgs:\n    ref_text: Texte brut de la référence\n    full_ref: Référence complète depuis bibliographie (optionnel)\n\nReturns:\n    Dictionnaire avec auteur, titre, année extraits"
+    },
+    "agent.search_openalex": {
+      "name": "search_openalex",
+      "line": 252,
+      "args": [
+        "self",
+        "author",
+        "title",
+        "year"
+      ],
+      "docstring": "Recherche dans OpenAlex (API gratuite prioritaire)\n\nArgs:\n    author, title, year: Métadonnées extraites\n\nReturns:\n    Informations bibliographiques avec DOI si trouvé"
+    },
+    "agent.search_crossref": {
+      "name": "search_crossref",
+      "line": 313,
+      "args": [
+        "self",
+        "author",
+        "title",
+        "year"
+      ],
+      "docstring": "Recherche dans CrossRef (API de backup)\n\nArgs:\n    author, title, year: Métadonnées extraites\n\nReturns:\n    Informations bibliographiques avec DOI si trouvé"
+    },
+    "agent._similarity_score": {
+      "name": "_similarity_score",
+      "line": 372,
+      "args": [
+        "self",
+        "str1",
+        "str2"
+      ],
+      "docstring": "Calcul de similarité simple entre deux chaînes\n(Ratio de mots communs)"
+    },
+    "agent.process_references": {
+      "name": "process_references",
+      "line": 391,
+      "args": [
+        "self",
+        "references"
+      ],
+      "docstring": "Traite une liste de références et enrichit avec métadonnées\n\nArgs:\n    references: Liste de références extraites du fichier\n\nReturns:\n    Liste enrichie avec DOI et métadonnées"
+    },
+    "agent.save_results": {
+      "name": "save_results",
+      "line": 443,
+      "args": [
+        "self",
+        "results",
+        "source_file"
+      ],
+      "docstring": "Sauvegarde les résultats dans le dossier de sortie\n\nArgs:\n    results: Résultats enrichis\n    source_file: Nom du fichier source"
+    },
+    "git_publish.main": {
+      "name": "main",
+      "line": 204,
+      "args": [],
+      "docstring": "Point d'entrée"
+    },
+    "git_publish.__init__": {
+      "name": "__init__",
+      "line": 17,
+      "args": [
+        "self"
+      ],
+      "docstring": null
+    },
+    "git_publish.run_cmd": {
+      "name": "run_cmd",
+      "line": 28,
+      "args": [
+        "self",
+        "cmd",
+        "check"
+      ],
+      "docstring": "Execute commande shell"
+    },
+    "git_publish.check_git_installed": {
+      "name": "check_git_installed",
+      "line": 46,
+      "args": [
+        "self"
+      ],
+      "docstring": "Vérifie que Git est installé"
+    },
+    "git_publish.init_repo_if_needed": {
+      "name": "init_repo_if_needed",
+      "line": 53,
+      "args": [
+        "self"
+      ],
+      "docstring": "Initialise le repo si nécessaire"
+    },
+    "git_publish.ensure_gitignore": {
+      "name": "ensure_gitignore",
+      "line": 76,
+      "args": [
+        "self"
+      ],
+      "docstring": "Vérifie que .gitignore existe"
+    },
+    "git_publish.check_for_secrets": {
+      "name": "check_for_secrets",
+      "line": 84,
+      "args": [
+        "self"
+      ],
+      "docstring": "Vérifie qu'aucun secret n'est dans les fichiers stagés"
+    },
+    "git_publish.get_status": {
+      "name": "get_status",
+      "line": 127,
+      "args": [
+        "self"
+      ],
+      "docstring": "Récupère le statut Git"
+    },
+    "git_publish.stage_files": {
+      "name": "stage_files",
+      "line": 132,
+      "args": [
+        "self"
+      ],
+      "docstring": "Stage les fichiers selon .gitignore"
+    },
+    "git_publish.create_commit": {
+      "name": "create_commit",
+      "line": 153,
+      "args": [
+        "self",
+        "message"
+      ],
+      "docstring": "Crée un commit"
+    },
+    "git_publish.push_to_remote": {
+      "name": "push_to_remote",
+      "line": 164,
+      "args": [
+        "self",
+        "branch"
+      ],
+      "docstring": "Push vers le remote"
+    },
+    "git_publish.show_summary": {
+      "name": "show_summary",
+      "line": 191,
+      "args": [
+        "self"
+      ],
+      "docstring": "Affiche un résumé"
+    }
+  },
+  "classes": {
+    "agent.BiblioEnricher": {
+      "name": "BiblioEnricher",
+      "line": 27,
+      "methods": [
+        "__init__",
+        "_check_ollama",
+        "scan_file",
+        "search_in_bibliography",
+        "extract_metadata_with_llm",
+        "search_openalex",
+        "search_crossref",
+        "_similarity_score",
+        "process_references",
+        "save_results"
+      ],
+      "docstring": "Agent pour enrichir les références bibliographiques"
+    },
+    "git_publish.GitPublisher": {
+      "name": "GitPublisher",
+      "line": 14,
+      "methods": [
+        "__init__",
+        "run_cmd",
+        "check_git_installed",
+        "init_repo_if_needed",
+        "ensure_gitignore",
+        "check_for_secrets",
+        "get_status",
+        "stage_files",
+        "create_commit",
+        "push_to_remote",
+        "show_summary"
+      ],
+      "docstring": "Automatise la publication Git avec vérifications de sécurité"
+    }
+  },
+  "dependencies": {
+    "requirements": [
+      "requests>=2.31.0",
+      "markdown-it-py>=3.0.0",
+      "ollama>=0.1.0",
+      "regex>=2023.0.0",
+      "tqdm>=4.66.0"
+    ],
+    "count": 5
+  },
+  "config": {
+    "VAULT_PATH": "\"..\"  # Dossier parent (le vault Obsidian)",
+    "BIBLIO_FILE": "\"4.4 Bibliographic references.md\"",
+    "OLLAMA_URL": "\"http://localhost:11434\"",
+    "OLLAMA_MODEL": "\"llama3.1:8b\"",
+    "OPENALEX_EMAIL": "None  # Optionnel : votre email pour être poli avec l'API",
+    "CROSSREF_EMAIL": "None  # Optionnel",
+    "CONTEXT_LINES": "3",
+    "MIN_CONFIDENCE_SCORE": "0.5",
+    "OUTPUT_DIR": "\"results\"",
+    "OUTPUT_FORMAT": "\"both\""
+  },
+  "stats": {
+    "total_python_files": 4,
+    "total_lines_of_code": 886,
+    "total_functions": 23,
+    "total_classes": 2,
+    "total_dependencies": 5,
+    "documentation_files": 9
+  },
+  "documentation": {
+    "README.md": {
+      "path": "/home/steeven/kDrive/MHis_M05_3/Cours/biblio-enricher/README.md",
+      "size": 6172,
+      "lines": 226
+    },
+    "QUICKSTART.md": {
+      "path": "/home/steeven/kDrive/MHis_M05_3/Cours/biblio-enricher/QUICKSTART.md",
+      "size": 3099,
+      "lines": 142
+    },
+    "EXAMPLE_TEST.md": {
+      "path": "/home/steeven/kDrive/MHis_M05_3/Cours/biblio-enricher/EXAMPLE_TEST.md",
+      "size": 1429,
+      "lines": 33
+    },
+    "TODO.md": {
+      "path": "/home/steeven/kDrive/MHis_M05_3/Cours/biblio-enricher/TODO.md",
+      "size": 15140,
+      "lines": 481
+    },
+    "PROJECT_STATE.md": {
+      "path": "/home/steeven/kDrive/MHis_M05_3/Cours/biblio-enricher/PROJECT_STATE.md",
+      "size": 3688,
+      "lines": 155
+    },
+    "GIT_SETUP.md": {
+      "path": "/home/steeven/kDrive/MHis_M05_3/Cours/biblio-enricher/GIT_SETUP.md",
+      "size": 4634,
+      "lines": 186
+    },
+    "AGENTS.md": {
+      "path": "/home/steeven/kDrive/MHis_M05_3/Cours/biblio-enricher/AGENTS.md",
+      "size": 4771,
+      "lines": 196
+    },
+    "requirements.txt": {
+      "path": "/home/steeven/kDrive/MHis_M05_3/Cours/biblio-enricher/requirements.txt",
+      "size": 291,
+      "lines": 16
+    },
+    "LISTE_FICHIERS.txt": {
+      "path": "/home/steeven/kDrive/MHis_M05_3/Cours/biblio-enricher/LISTE_FICHIERS.txt",
+      "size": 2152,
+      "lines": 78
+    }
+  }
+}
